@@ -4,7 +4,7 @@ from PyQt6.uic import loadUi
 
 class ImportFile(QMainWindow):
     def __init__(self):
-        super().__init__()
+        super(ImportFile,self).__init__()
         loadUi("./ImportFile.ui", self)
         self.pushButton_ImportFile = self.findChild(QPushButton, "pushButtonImportFile")
         self.pushButton_ImportFile.clicked.connect(self.clickedImport)
@@ -16,7 +16,6 @@ class ImportFile(QMainWindow):
         if file_name:
             print(f'Selected file: {file_name}')
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = ImportFile()
-    sys.exit(app.exec())
+app = QApplication(sys.argv)
+window = ImportFile()
+sys.exit(app.exec())
