@@ -1,7 +1,8 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QFileDialog, QDialog
+from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QFileDialog
 import sys
 from PyQt6.uic import loadUi
 import shutil
+from DisplayData import DisplayDataUI
 
 class ImportFile(QMainWindow):
     def __init__(self):
@@ -21,22 +22,16 @@ class ImportFile(QMainWindow):
                 shutil.copy(file_name, "Data.csv")
                 print(f'Copied {file_name} to Data.csv')
 
-                # Close the current window
+                # Open the DisplayData window
+                self.display_data_window = DisplayDataUI()
+                self.display_data_window.show()
+
+                # Close the ImportFile window
                 self.close()
 
-                # Open the DisplayData window
-                display_data_window = DisplayData()
-                display_data_window.exec()
-                
             except Exception as e:
                 print(f'Error copying file: {str(e)}')
 
-class DisplayData(QDialog):
-    def __init__(self):
-        super(DisplayData, self).__init__()
-        loadUi("./DisplayData.ui", self)
-        self.show()
-
 app = QApplication(sys.argv)
 window = ImportFile()
-sys.exit(app.exec())
+app.exec()

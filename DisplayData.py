@@ -3,14 +3,16 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidge
 import sys
 from PyQt6.uic import loadUi
 
-
-class DisplayData(QMainWindow):
+class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
     def __init__(self):
-        super().__init__()
+        super(DisplayDataUI,self).__init__()
         loadUi("./DisplayData.ui", self)
         self.show()
         self.table = self.findChild(QTableWidget)
         self.populateTable()
+
+        self.show()
+        
     def populateTable(self):
         self.table.clear()
 
@@ -38,9 +40,3 @@ class DisplayData(QMainWindow):
                 item = QTableWidgetItem(cell_data)
                 self.table.setItem(row_num, col_num, item)
 
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = DisplayData()
-    sys.exit(app.exec())
