@@ -16,8 +16,7 @@ class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
 
     def clickedExport(self):
         # Open a file dialog for the user to choose the save location and file name
-        options = QFileDialog.Options()
-        file_path, _ = QFileDialog.getSaveFileName(self, "Save File", "", "CSV Files (*.csv);;All Files (*)", options=options)
+        file_path, _ = QFileDialog.getSaveFileName(self, "Save File", "", "CSV Files (*.csv);;All Files (*)")
         
         # Proceed only if the user selected a path
         if file_path:
