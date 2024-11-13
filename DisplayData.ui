@@ -17,8 +17,8 @@
    <widget class="QTableWidget" name="tableData">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>80</y>
+      <x>130</x>
+      <y>110</y>
       <width>611</width>
       <height>291</height>
      </rect>
@@ -27,9 +27,9 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>870</x>
-      <y>140</y>
-      <width>75</width>
+      <x>850</x>
+      <y>190</y>
+      <width>91</width>
       <height>24</height>
      </rect>
     </property>
@@ -37,11 +37,11 @@
      <string>Anonymize</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="pushExportButton">
     <property name="geometry">
      <rect>
-      <x>870</x>
-      <y>230</y>
+      <x>860</x>
+      <y>280</y>
       <width>75</width>
       <height>24</height>
      </rect>
