@@ -1,5 +1,5 @@
 import csv
-from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidget,QPushButton, QTableWidgetItem, QFileDialog
+from PyQt6.QtWidgets import QMainWindow, QTableWidget,QPushButton, QTableWidgetItem, QFileDialog, QComboBox
 import sys
 from PyQt6.uic import loadUi
 
@@ -7,12 +7,11 @@ class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
     def __init__(self):
         super(DisplayDataUI,self).__init__()
         loadUi("./DisplayData.ui", self)
-        self.show()
         self.table = self.findChild(QTableWidget)
         self.populateTable()
-        self.show()
         self.pushButton_ExportToFile = self.findChild(QPushButton, "pushExportButton")
         self.pushButton_ExportToFile.clicked.connect(self.clickedExport)
+        self.columnComboBox=self.findChild(QComboBox , "columnComboBox")
 
     def clickedExport(self):
         # Open a file dialog for the user to choose the save location and file name
@@ -35,6 +34,7 @@ class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
 
     def populateTable(self):
         self.table.clear()
+        self.columnComboBox.clear()
 
         # Open the CSV file and read its data
         with open('Data.csv', 'r') as file:
@@ -59,3 +59,4 @@ class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
             for col_num, cell_data in enumerate(row_data):
                 item = QTableWidgetItem(cell_data)
                 self.table.setItem(row_num, col_num, item)
+        self.columnComboBox.addItems(header)

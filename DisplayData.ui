@@ -24,7 +24,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="pushAnonymizeButton">
     <property name="geometry">
      <rect>
       <x>850</x>
@@ -48,6 +48,16 @@
     </property>
     <property name="text">
      <string>Export</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="columnComboBox">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>50</y>
+      <width>141</width>
+      <height>22</height>
+     </rect>
     </property>
    </widget>
   </widget>
