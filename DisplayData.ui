@@ -60,6 +60,16 @@
      </rect>
     </property>
    </widget>
+   <widget class="QComboBox" name="anonymizationComboBox">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>50</y>
+      <width>141</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
