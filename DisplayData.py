@@ -7,7 +7,7 @@ class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
     def __init__(self):
         super(DisplayDataUI,self).__init__()
         loadUi("./DisplayData.ui", self)
-        self.table = self.findChild(QTableWidget)
+        self.table = self.findChild(QTableWidget,"tableData")
         self.populateTable()
         self.pushButton_ExportToFile = self.findChild(QPushButton, "pushExportButton")
         self.pushButton_ExportToFile.clicked.connect(self.clickedExport)
