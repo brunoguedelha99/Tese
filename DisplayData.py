@@ -13,10 +13,16 @@ class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
         self.pushButton_ExportToFile.clicked.connect(self.clickedExport)
         self.columnComboBox=self.findChild(QComboBox , "columnComboBox")
         self.anonymizationComboBox=self.findChild(QComboBox , "anonymizationComboBox")
+        self.dataTypeComboBox=self.findChild(QComboBox,"dataTypeComboBox")
         self.anonymizationComboBox.addItem("Generalization")
         self.anonymizationComboBox.addItem("Suppression")
         self.anonymizationComboBox.addItem("Pseudonymization")
         self.anonymizationComboBox.addItem("Data Masking")
+        self.anonymizationComboBox.addItem("Aggregation")
+        self.dataTypeComboBox.addItem("Text")
+        self.dataTypeComboBox.addItem("Number")
+        self.dataTypeComboBox.addItem("Date")
+        
     def clickedExport(self):
         # Open a file dialog for the user to choose the save location and file name
         file_path, _ = QFileDialog.getSaveFileName(self, "Save File", "", "CSV Files (*.csv);;All Files (*)")
