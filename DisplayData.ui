@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -53,6 +53,29 @@
        <string>Export</string>
       </property>
      </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>10</y>
+        <width>81</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Tipo de dados:</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="dataTypeComboBox">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>30</y>
+        <width>141</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
@@ -61,8 +84,8 @@
      <widget class="QPushButton" name="pushAnonymizeButton">
       <property name="geometry">
        <rect>
-        <x>600</x>
-        <y>50</y>
+        <x>670</x>
+        <y>340</y>
         <width>91</width>
         <height>24</height>
        </rect>
@@ -71,33 +94,23 @@
        <string>Anonymize</string>
       </property>
      </widget>
-     <widget class="QComboBox" name="dataTypeComboBox">
-      <property name="geometry">
-       <rect>
-        <x>270</x>
-        <y>50</y>
-        <width>141</width>
-        <height>22</height>
-       </rect>
-      </property>
-     </widget>
      <widget class="QLabel" name="label_3">
       <property name="geometry">
        <rect>
-        <x>430</x>
+        <x>280</x>
         <y>30</y>
         <width>121</width>
         <height>16</height>
        </rect>
       </property>
       <property name="text">
-       <string>Tipo de anonimização:</string>
+       <string>Anonymization type</string>
       </property>
      </widget>
      <widget class="QComboBox" name="anonymizationComboBox">
       <property name="geometry">
        <rect>
-        <x>430</x>
+        <x>280</x>
         <y>50</y>
         <width>141</width>
         <height>22</height>
@@ -114,7 +127,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Coluna:</string>
+       <string>Column:</string>
       </property>
      </widget>
      <widget class="QComboBox" name="columnComboBox">
@@ -127,17 +140,27 @@
        </rect>
       </property>
      </widget>
-     <widget class="QLabel" name="label_2">
+     <widget class="QTableWidget" name="tableAnonymizationSett">
       <property name="geometry">
        <rect>
-        <x>270</x>
-        <y>30</y>
-        <width>81</width>
-        <height>16</height>
+        <x>80</x>
+        <y>110</y>
+        <width>521</width>
+        <height>271</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushAddButton">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>50</y>
+        <width>91</width>
+        <height>24</height>
        </rect>
       </property>
       <property name="text">
-       <string>Tipo de dados:</string>
+       <string>Add</string>
       </property>
      </widget>
     </widget>

@@ -8,20 +8,24 @@ class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
         super(DisplayDataUI,self).__init__()
         loadUi("./DisplayData.ui", self)
         self.table = self.findChild(QTableWidget,"tableData")
-        self.populateTable()
+        self.tableAnonymizationSett = self.findChild(QTableWidget,"tableAnonymizationSett")
         self.pushButton_ExportToFile = self.findChild(QPushButton, "pushExportButton")
         self.pushButton_ExportToFile.clicked.connect(self.clickedExport)
+        self.pushAddButton = self.findChild(QPushButton,"pushAddButton")
+        self.pushAddButton.clicked.connect(self.clickedAdd)
         self.columnComboBox=self.findChild(QComboBox , "columnComboBox")
         self.anonymizationComboBox=self.findChild(QComboBox , "anonymizationComboBox")
-        self.dataTypeComboBox=self.findChild(QComboBox,"dataTypeComboBox")
         self.anonymizationComboBox.addItem("Generalization")
         self.anonymizationComboBox.addItem("Suppression")
         self.anonymizationComboBox.addItem("Pseudonymization")
         self.anonymizationComboBox.addItem("Data Masking")
         self.anonymizationComboBox.addItem("Aggregation")
-        self.dataTypeComboBox.addItem("Text")
+        self.dataTypeComboBox=self.findChild(QComboBox,"dataTypeComboBox")
+        """ self.dataTypeComboBox.addItem("Text")
         self.dataTypeComboBox.addItem("Number")
-        self.dataTypeComboBox.addItem("Date")
+        self.dataTypeComboBox.addItem("Date") """
+        self.populateTables()
+        self.anonymization_settings = []
         
     def clickedExport(self):
         # Open a file dialog for the user to choose the save location and file name
@@ -41,11 +45,38 @@ class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
                     row_data = [self.table.item(row, col).text() if self.table.item(row, col) else '' for col in range(self.table.columnCount())]
                     writer.writerow(row_data)
 
+    def clickedAdd(self):
+        # Get the selected column and anonymization type from the combo boxes
+        selected_column = self.columnComboBox.currentText()
+        selected_anonymization = self.anonymizationComboBox.currentText()
 
-    def populateTable(self):
+        # Check if the selected values are not empty
+        if selected_column and selected_anonymization:
+            # Append the selected values as a new list to the anonymization_settings
+            self.anonymization_settings.append([selected_column, selected_anonymization])
+            print(f'Added: {selected_column}, {selected_anonymization}')
+            print(f'Current settings: {self.anonymization_settings}')
+
+            # Optionally, you can also update the tableAnonymizationSett to reflect the new entry
+            current_row_count = self.tableAnonymizationSett.rowCount()
+            self.tableAnonymizationSett.insertRow(current_row_count)
+            self.tableAnonymizationSett.setItem(current_row_count, 0, QTableWidgetItem(selected_column))
+            self.tableAnonymizationSett.setItem(current_row_count, 1, QTableWidgetItem(selected_anonymization))
+
+            # Clear the combo boxes after adding
+            self.columnComboBox.setCurrentIndex(-1)
+            self.anonymizationComboBox.setCurrentIndex(-1)
+        else:
+            # Optionally, show an error message if inputs are invalid
+            print("Please select a column and an anonymization type.")
+
+    def populateTables(self):
         self.table.clear()
+        self.tableAnonymizationSett.clear()
         self.columnComboBox.clear()
 
+        #TABLE DATA#
+        
         # Open the CSV file and read its data
         with open('Data.csv', 'r') as file:
             csv_reader = csv.reader(file)
@@ -54,19 +85,27 @@ class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
         if len(data) == 0:
             return  # No data to display
 
-        header = data[0]  # Use the first row as the header
+        headerTableData = data[0]  # Use the first row as the header
+        print(headerTableData)
         data = data[1:]   # Remove the header from the data
 
         # Set the number of rows and columns in the table
         self.table.setRowCount(len(data))
-        self.table.setColumnCount(len(header))
+        self.table.setColumnCount(len(headerTableData))
 
         # Set the header labels for the columns
-        self.table.setHorizontalHeaderLabels(header)
+        self.table.setHorizontalHeaderLabels(headerTableData)
 
         # Populate the table with data from the CSV file
         for row_num, row_data in enumerate(data):
             for col_num, cell_data in enumerate(row_data):
                 item = QTableWidgetItem(cell_data)
                 self.table.setItem(row_num, col_num, item)
-        self.columnComboBox.addItems(header)
+        
+        #END OF TABLE DATA#        
+        
+        #TABLE ANONYMIZATION SETTINGS#
+        headerTableAnonymization=['Column','Anonymization type']
+        self.tableAnonymizationSett.setHorizontalHeaderLabels(headerTableAnonymization)
+
+        self.columnComboBox.addItems(headerTableData)
