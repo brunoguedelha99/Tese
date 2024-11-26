@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -161,6 +161,19 @@
       </property>
       <property name="text">
        <string>Add</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelAddError">
+      <property name="geometry">
+       <rect>
+        <x>580</x>
+        <y>50</y>
+        <width>351</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </widget>

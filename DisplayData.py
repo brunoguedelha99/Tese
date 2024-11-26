@@ -1,5 +1,5 @@
 import csv
-from PyQt6.QtWidgets import QMainWindow, QTableWidget,QPushButton, QTableWidgetItem, QFileDialog, QComboBox
+from PyQt6.QtWidgets import QMainWindow, QTableWidget,QPushButton, QTableWidgetItem, QFileDialog, QComboBox,QLabel
 import sys
 from PyQt6.uic import loadUi
 
@@ -24,6 +24,7 @@ class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
         """ self.dataTypeComboBox.addItem("Text")
         self.dataTypeComboBox.addItem("Number")
         self.dataTypeComboBox.addItem("Date") """
+        self.labelAddError = self.findChild(QLabel, "labelAddError") 
         self.populateTables()
         self.anonymization_settings = []
         
@@ -44,31 +45,6 @@ class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
                 for row in range(self.table.rowCount()):
                     row_data = [self.table.item(row, col).text() if self.table.item(row, col) else '' for col in range(self.table.columnCount())]
                     writer.writerow(row_data)
-
-    def clickedAdd(self):
-        # Get the selected column and anonymization type from the combo boxes
-        selected_column = self.columnComboBox.currentText()
-        selected_anonymization = self.anonymizationComboBox.currentText()
-
-        # Check if the selected values are not empty
-        if selected_column and selected_anonymization:
-            # Append the selected values as a new list to the anonymization_settings
-            self.anonymization_settings.append([selected_column, selected_anonymization])
-            print(f'Added: {selected_column}, {selected_anonymization}')
-            print(f'Current settings: {self.anonymization_settings}')
-
-            # Optionally, you can also update the tableAnonymizationSett to reflect the new entry
-            current_row_count = self.tableAnonymizationSett.rowCount()
-            self.tableAnonymizationSett.insertRow(current_row_count)
-            self.tableAnonymizationSett.setItem(current_row_count, 0, QTableWidgetItem(selected_column))
-            self.tableAnonymizationSett.setItem(current_row_count, 1, QTableWidgetItem(selected_anonymization))
-
-            # Clear the combo boxes after adding
-            self.columnComboBox.setCurrentIndex(-1)
-            self.anonymizationComboBox.setCurrentIndex(-1)
-        else:
-            # Optionally, show an error message if inputs are invalid
-            print("Please select a column and an anonymization type.")
 
     def populateTables(self):
         self.table.clear()
@@ -109,3 +85,32 @@ class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
         self.tableAnonymizationSett.setHorizontalHeaderLabels(headerTableAnonymization)
 
         self.columnComboBox.addItems(headerTableData)
+        
+    
+    def clickedAdd(self):
+        # Get the selected column and anonymization type from the combo boxes
+        selected_column = self.columnComboBox.currentText()
+        selected_anonymization = self.anonymizationComboBox.currentText()
+
+        # Check if the selected values are not empty
+        if selected_column and selected_anonymization:
+            # Append the selected values as a new list to the anonymization_settings
+            self.anonymization_settings.append([selected_column, selected_anonymization])
+            print(f'Added: {selected_column}, {selected_anonymization}')
+            print(f'Current settings: {self.anonymization_settings}')
+
+            # Optionally, you can also update the tableAnonymizationSett to reflect the new entry
+            current_row_count = self.tableAnonymizationSett.rowCount()
+            self.tableAnonymizationSett.insertRow(current_row_count)
+            self.tableAnonymizationSett.setItem(current_row_count, 0, QTableWidgetItem(selected_column))
+            self.tableAnonymizationSett.setItem(current_row_count, 1, QTableWidgetItem(selected_anonymization))
+            
+            # Delete column added from combo box
+            self.columnComboBox.removeItem(self.columnComboBox.findText(selected_column))
+            
+            # Clear the combo boxes after adding
+            self.columnComboBox.setCurrentIndex(-1)
+            self.anonymizationComboBox.setCurrentIndex(-1)
+        else:
+            # Optionally, show an error message if inputs are invalid
+            self.labelAddError.setText("<span style='color: red;'>Please select a column and an anonymization type!</span>")
