@@ -68,10 +68,10 @@ class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
         # Set the number of rows and columns in the table
         self.table.setRowCount(len(data))
         self.table.setColumnCount(len(headerTableData))
-
+        
         # Set the header labels for the columns
         self.table.setHorizontalHeaderLabels(headerTableData)
-
+        
         # Populate the table with data from the CSV file
         for row_num, row_data in enumerate(data):
             for col_num, cell_data in enumerate(row_data):
@@ -82,7 +82,9 @@ class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
         
         #TABLE ANONYMIZATION SETTINGS#
         headerTableAnonymization=['Column','Anonymization type']
+        self.tableAnonymizationSett.setColumnCount(len(headerTableAnonymization))
         self.tableAnonymizationSett.setHorizontalHeaderLabels(headerTableAnonymization)
+        print(headerTableAnonymization)
 
         self.columnComboBox.addItems(headerTableData)
         
