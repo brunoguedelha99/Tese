@@ -113,6 +113,7 @@ class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
             # Clear the combo boxes after adding
             self.columnComboBox.setCurrentIndex(-1)
             self.anonymizationComboBox.setCurrentIndex(-1)
+            self.labelAddError.setText("<span style='color: green;'>Added successfully!</span>")
         else:
             # Optionally, show an error message if inputs are invalid
             self.labelAddError.setText("<span style='color: red;'>Please select a column and an anonymization type!</span>")
