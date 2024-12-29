@@ -2,6 +2,7 @@ import csv
 from PyQt6.QtWidgets import QMainWindow, QTableWidget,QPushButton, QTableWidgetItem, QFileDialog, QComboBox,QLabel
 import sys
 from PyQt6.uic import loadUi
+from DataMasking import DataMaskingUI
 
 class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
     def __init__(self):
@@ -114,6 +115,10 @@ class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
             self.columnComboBox.setCurrentIndex(-1)
             self.anonymizationComboBox.setCurrentIndex(-1)
             self.labelAddError.setText("<span style='color: green;'>Added successfully!</span>")
+            self.display_data_masking = DataMaskingUI()
+            self.display_data_masking.show()
         else:
             # Optionally, show an error message if inputs are invalid
             self.labelAddError.setText("<span style='color: red;'>Please select a column and an anonymization type!</span>")
+            self.display_data_masking = DataMaskingUI()
+            self.display_data_masking.show()
