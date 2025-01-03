@@ -1,4 +1,5 @@
 import csv
+from Anonymize import Anonymize
 from PyQt6.QtWidgets import QMainWindow, QTableWidget,QPushButton, QTableWidgetItem, QFileDialog, QComboBox,QLabel
 import sys
 from PyQt6.uic import loadUi
@@ -16,11 +17,11 @@ class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
         self.pushAddButton.clicked.connect(self.clickedAdd)
         self.columnComboBox=self.findChild(QComboBox , "columnComboBox")
         self.anonymizationComboBox=self.findChild(QComboBox , "anonymizationComboBox")
-        self.anonymizationComboBox.addItem("Generalization")
-        self.anonymizationComboBox.addItem("Suppression")
-        self.anonymizationComboBox.addItem("Pseudonymization")
-        self.anonymizationComboBox.addItem("Data Masking")
-        self.anonymizationComboBox.addItem("Aggregation")
+        self.anonymizationComboBox.addItem(Anonymize.Generalization.name)
+        self.anonymizationComboBox.addItem(Anonymize.Suppression.name)
+        self.anonymizationComboBox.addItem(Anonymize.Pseudonymization.name)
+        self.anonymizationComboBox.addItem(Anonymize.Data_Masking.name)
+        self.anonymizationComboBox.addItem(Anonymize.Aggregation.name)
         self.dataTypeComboBox=self.findChild(QComboBox,"dataTypeComboBox")
         """ self.dataTypeComboBox.addItem("Text")
         self.dataTypeComboBox.addItem("Number")
@@ -94,7 +95,12 @@ class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
         # Get the selected column and anonymization type from the combo boxes
         selected_column = self.columnComboBox.currentText()
         selected_anonymization = self.anonymizationComboBox.currentText()
-
+        
+        match selected_anonymization:
+            case "Data_Masking":
+                self.display_data_masking = DataMaskingUI()
+                self.display_data_masking.show()
+                
         # Check if the selected values are not empty
         if selected_column and selected_anonymization:
             # Append the selected values as a new list to the anonymization_settings
@@ -115,8 +121,7 @@ class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
             self.columnComboBox.setCurrentIndex(-1)
             self.anonymizationComboBox.setCurrentIndex(-1)
             self.labelAddError.setText("<span style='color: green;'>Added successfully!</span>")
-            self.display_data_masking = DataMaskingUI()
-            self.display_data_masking.show()
+            
         else:
             # Optionally, show an error message if inputs are invalid
             self.labelAddError.setText("<span style='color: red;'>Please select a column and an anonymization type!</span>")
