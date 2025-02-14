@@ -96,13 +96,14 @@ class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
         selected_column = self.columnComboBox.currentText()
         selected_anonymization = self.anonymizationComboBox.currentText()
         
-        match selected_anonymization:
-            case "Data_Masking":
-                self.display_data_masking = DataMaskingUI()
-                self.display_data_masking.show()
-                
         # Check if the selected values are not empty
         if selected_column and selected_anonymization:
+            match selected_anonymization:
+                case "Data_Masking":
+                    self.display_data_masking = DataMaskingUI()
+                    self.display_data_masking.show()
+                
+        
             # Append the selected values as a new list to the anonymization_settings
             self.anonymization_settings.append([selected_column, selected_anonymization])
             print(f'Added: {selected_column}, {selected_anonymization}')
@@ -125,5 +126,3 @@ class DisplayDataUI(QMainWindow):  # Renamed the class to DisplayDataUI
         else:
             # Optionally, show an error message if inputs are invalid
             self.labelAddError.setText("<span style='color: red;'>Please select a column and an anonymization type!</span>")
-            self.display_data_masking = DataMaskingUI()
-            self.display_data_masking.show()
