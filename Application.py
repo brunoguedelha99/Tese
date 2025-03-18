@@ -36,11 +36,17 @@ class Application(QMainWindow):
                     excel_data = pd.read_excel(file_name)
                     excel_data.to_csv("Data.csv", index=False)
                     print(f'Converted {file_name} to Data.csv')
-                    self.populateTable()
                 else:
                     # Copy the selected CSV file to "Data.csv"
                     shutil.copy(file_name, "Data.csv")
                     print(f'Copied {file_name} to Data.csv')
+                
+                self.populateTable()
+                
+                # Switch to the Data tab (index 3)
+                self.tabWidget.setCurrentIndex(3)
+                
+                QMessageBox.information(self, "Success", "File imported successfully!")
 
             except Exception as e:
                 error_message = f'Error processing file: {str(e)}'
