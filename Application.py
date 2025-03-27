@@ -12,6 +12,8 @@ class Application(QMainWindow):
         loadUi("./Application.ui", self)
         self.pushButton_ImportFile = self.findChild(QPushButton, "pushButtonImportFile")
         self.pushButton_ImportFile.clicked.connect(self.clickedImport)
+        self.pushButton_ExportFile = self.findChild(QPushButton, "pushButtonExportFile")
+        self.pushButton_ExportFile.clicked.connect(self.clickedExport)
         self.table = self.findChild(QTableWidget,"tableData")
         self.show()
 
@@ -84,7 +86,11 @@ class Application(QMainWindow):
                 self.table.setItem(row_num, col_num, item)
     
     #DATA TAB END
+    def clickedExport(self):
+        
+    #EXPORT TAB BEGIN
 
+    #EXPORT TAB END
 app = QApplication(sys.argv)
 window = Application()
 app.exec()
