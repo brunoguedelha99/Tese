@@ -12,8 +12,8 @@ class Application(QMainWindow):
         loadUi("./Application.ui", self)
         self.pushButton_ImportFile = self.findChild(QPushButton, "pushButtonImportFile")
         self.pushButton_ImportFile.clicked.connect(self.clickedImport)
-        self.pushButton_ExportFile = self.findChild(QPushButton, "pushButtonExportFile")
-        self.pushButton_ExportFile.clicked.connect(self.clickedExport)
+        self.pushButton_ExportData = self.findChild(QPushButton, "pushButtonExportData")
+        self.pushButton_ExportData.clicked.connect(self.clickedExport)
         self.table = self.findChild(QTableWidget,"tableData")
         self.show()
 
@@ -85,12 +85,41 @@ class Application(QMainWindow):
                 item = QTableWidgetItem(cell_data)
                 self.table.setItem(row_num, col_num, item)
     
-    #DATA TAB END
-    def clickedExport(self):
-        
     #EXPORT TAB BEGIN
-
+    def clickedExport(self):
+        file_name, _ = QFileDialog.getSaveFileName(
+            self,
+            "Save Data File",
+            "",
+            "CSV Files (*.csv);;Excel Files (*.xlsx);;All Files (*)"
+        )
+        
+        if file_name:
+            try:
+                file_extension = os.path.splitext(file_name)[1].lower()
+                
+                # Read the current data from Data.csv
+                df = pd.read_csv("Data.csv")
+                
+                # Export based on the selected file extension
+                if file_extension == '.csv':
+                    df.to_csv(file_name, index=False)
+                elif file_extension in ['.xlsx', '.xls']:
+                    df.to_excel(file_name, index=False)
+                else:
+                    # Default to CSV if no extension or unrecognized extension
+                    if not file_extension:
+                        file_name += '.csv'
+                    df.to_csv(file_name, index=False)
+                
+                QMessageBox.information(self, "Success", f"File exported successfully to {file_name}!")
+                
+            except Exception as e:
+                error_message = f'Error exporting file: {str(e)}'
+                print(error_message)
+                QMessageBox.critical(self, "Error", error_message)
     #EXPORT TAB END
+
 app = QApplication(sys.argv)
 window = Application()
 app.exec()
