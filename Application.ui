@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -55,29 +55,6 @@
       <string>Click on the button bellow to import a file:</string>
      </property>
     </widget>
-    <widget class="QLabel" name="labelAddError">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>240</y>
-       <width>351</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tab_2">
-    <attribute name="title">
-     <string>Attributes</string>
-    </attribute>
-   </widget>
-   <widget class="QWidget" name="tab_3">
-    <attribute name="title">
-     <string>Anonymize</string>
-    </attribute>
    </widget>
    <widget class="QWidget" name="tab_4">
     <attribute name="title">
@@ -93,6 +70,26 @@
       </rect>
      </property>
     </widget>
+   </widget>
+   <widget class="QWidget" name="tab_2">
+    <attribute name="title">
+     <string>Attributes</string>
+    </attribute>
+    <widget class="QTableWidget" name="tableAttributes">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>100</y>
+       <width>871</width>
+       <height>411</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_3">
+    <attribute name="title">
+     <string>Anonymize</string>
+    </attribute>
    </widget>
    <widget class="QWidget" name="tab_5">
     <attribute name="title">

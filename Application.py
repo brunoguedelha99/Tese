@@ -11,10 +11,10 @@ class Application(QMainWindow):
     def __init__(self):
         super(Application, self).__init__()
         loadUi("./Application.ui", self)
+        self.tabWidget.setCurrentIndex(0)
         #IMPORT FILE TAB
         self.pushButton_ImportFile = self.findChild(QPushButton, "pushButtonImportFile")
         self.pushButton_ImportFile.clicked.connect(self.clickedImport)
-        self.labelAddError = self.findChild(QLabel, "labelAddError") 
         
         #DATA TAB
         self.pushButton_ExportData = self.findChild(QPushButton, "pushButtonExportData")
@@ -43,24 +43,21 @@ class Application(QMainWindow):
                     excel_data = pd.read_excel(file_name)
                     excel_data.to_csv("Data.csv", index=False)
                     print(f'Converted {file_name} to Data.csv')
-                    self.labelAddError.setText("<span style='color: green;'>Added successfully!</span>")
                 else:
                     # Copy the selected CSV file to "Data.csv"
                     shutil.copy(file_name, "Data.csv")
                     print(f'Copied {file_name} to Data.csv')
-                    self.labelAddError.setText("<span style='color: green;'>Added successfully!</span>")
                 
                 self.populateTable()
                 
-                # Switch to the Data tab (index 3)
-                self.tabWidget.setCurrentIndex(3)
+                # Switch to the Data tab (index 1)
+                self.tabWidget.setCurrentIndex(1)
                 
                 QMessageBox.information(self, "Success", "File imported successfully!")
 
             except Exception as e:
                 error_message = f'Error processing file: {str(e)}'
                 print(error_message)
-                self.labelAddError.setText("<span style='color: green;'>"+error_message+"</span>")
                 QMessageBox.critical(self, "Error", error_message)
     #IMPORT TAB END
 
