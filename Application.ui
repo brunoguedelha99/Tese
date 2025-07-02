@@ -55,6 +55,19 @@
       <string>Click on the button bellow to import a file:</string>
      </property>
     </widget>
+    <widget class="QLabel" name="labelAddError">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>240</y>
+       <width>351</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab_2">
     <attribute name="title">
