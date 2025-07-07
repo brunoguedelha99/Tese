@@ -12,6 +12,7 @@ class Application(QMainWindow):
         super(Application, self).__init__()
         loadUi("./Application.ui", self)
         self.tabWidget.setCurrentIndex(0)
+        
         #IMPORT FILE TAB
         self.pushButton_ImportFile = self.findChild(QPushButton, "pushButtonImportFile")
         self.pushButton_ImportFile.clicked.connect(self.clickedImport)
@@ -21,11 +22,16 @@ class Application(QMainWindow):
         
         #ATTRIBUTES TAB
         self.pushButton_ConfirmAttributes = self.findChild(QPushButton, "pushButtonConfirm")
+        self.pushButton_ConfirmAttributes.clicked.connect(self.clickedConfirmAttributes)
         self.tableAttributes = self.findChild(QTableWidget, "tableAttributes")
 
         #EXPORT DATA TAB
         self.pushButton_ExportData = self.findChild(QPushButton, "pushButtonExportData")
         self.pushButton_ExportData.clicked.connect(self.clickedExport)
+        
+        # Variável para guardar configurações dos atributos
+        self.anonymization_config = []
+        
         self.show()
 
     #IMPORT TAB BEGIN
@@ -233,6 +239,73 @@ class Application(QMainWindow):
                     selected_columns.append(column_config)
     
         return selected_columns
+
+    #ATTRIBUTES TAB - CONFIRM BUTTON
+    def clickedConfirmAttributes(self):
+        """Confirma as configurações dos atributos e avança para próxima aba"""
+        print("Confirming attributes...")
+        
+        # Obter atributos selecionados
+        selected_attributes = self.getSelectedAttributes()
+        
+        # Validação: verificar se pelo menos um atributo foi selecionado
+        if not selected_attributes:
+            QMessageBox.warning(
+                self, 
+                "No Attributes Selected", 
+                "⚠️ Please select at least one attribute for anonymization!\n\n"
+                "Use the checkboxes in the 'Include' column to select which columns to anonymize."
+            )
+            return
+        
+        # Guardar configuração para usar nas próximas abas
+        self.anonymization_config = selected_attributes
+        
+        # Criar resumo das configurações
+        summary_lines = []
+        sensitivity_counts = {"Low": 0, "Medium": 0, "High": 0, "Critical": 0}
+        
+        for attr in selected_attributes:
+            sensitivity_counts[attr['sensitivity']] += 1
+            summary_lines.append(f"• {attr['name']} ({attr['data_type']}) - {attr['sensitivity']}")
+        
+        # Criar texto do resumo
+        summary_text = f"✅ {len(selected_attributes)} attributes configured for anonymization:\n\n"
+        summary_text += "\n".join(summary_lines)
+        summary_text += f"\n\n📊 Sensitivity Distribution:\n"
+        
+        for level, count in sensitivity_counts.items():
+            if count > 0:
+                icon = {"Low": "🟢", "Medium": "🟡", "High": "🟠", "Critical": "🔴"}[level]
+                summary_text += f"{icon} {level}: {count} attribute(s)\n"
+        
+        summary_text += f"\n🎯 Ready to configure anonymization parameters!"
+        
+        # Mostrar confirmação
+        reply = QMessageBox.information(
+            self, 
+            "Attributes Configured Successfully", 
+            summary_text,
+            QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel
+        )
+        
+        if reply == QMessageBox.StandardButton.Ok:
+            # Debug: Imprimir configurações no console
+            print(f"\n=== ANONYMIZATION CONFIGURATION ===")
+            for attr in selected_attributes:
+                print(f"Column: {attr['name']:<15} | Type: {attr['data_type']:<8} | Sensitivity: {attr['sensitivity']}")
+            print(f"=====================================\n")
+            
+            # Avançar para a aba Anonymize (index 3)
+            self.tabWidget.setCurrentIndex(3)
+            
+            # Mostrar mensagem de sucesso
+            QMessageBox.information(
+                self,
+                "Ready for Next Step",
+                "🔄 Attributes configuration saved!\n\n"
+                "You can now configure the anonymization techniques in the 'Anonymize' tab."
+            )
     
     #EXPORT TAB BEGIN
     def clickedExport(self):
