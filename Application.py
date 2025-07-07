@@ -20,6 +20,7 @@ class Application(QMainWindow):
         self.table = self.findChild(QTableWidget,"tableData")
         
         #ATTRIBUTES TAB
+        self.pushButton_ConfirmAttributes = self.findChild(QPushButton, "pushButtonConfirm")
         self.tableAttributes = self.findChild(QTableWidget, "tableAttributes")
 
         #EXPORT DATA TAB
