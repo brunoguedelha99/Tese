@@ -1,6 +1,6 @@
 import csv
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QFileDialog,QTableWidget, QTableWidgetItem, QMessageBox,QComboBox, QCheckBox, QWidget, QHBoxLayout
+from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QFileDialog,QTableWidget, QTableWidgetItem, QMessageBox,QComboBox, QCheckBox, QWidget, QHBoxLayout,QStackedWidget,QSlider,QLabel
 import sys
 from PyQt6.uic import loadUi
 import shutil
@@ -25,16 +25,52 @@ class Application(QMainWindow):
         self.pushButton_ConfirmAttributes.clicked.connect(self.clickedConfirmAttributes)
         self.tableAttributes = self.findChild(QTableWidget, "tableAttributes")
 
+       #ANONYMIZE TAB
+        self.stackedWidgetAnonymize = self.findChild(QStackedWidget, "stackedWidgetAnonymize")
+        
+        # Mode toggle buttons
+        self.pushButton_AutoMode = self.findChild(QPushButton, "pushButtonAutoMode")
+        self.pushButton_AdvancedMode = self.findChild(QPushButton, "pushButtonAdvancedMode")
+        self.pushButton_AutoMode.clicked.connect(lambda: self.switchAnonymizeMode(0))
+        self.pushButton_AdvancedMode.clicked.connect(lambda: self.switchAnonymizeMode(1))
+        
+        # K-Anonymity slider
+        self.slider_KAnonymity = self.findChild(QSlider, "sliderKAnonymity")
+        self.label_KValue = self.findChild(QLabel, "labelKValue")
+        self.slider_KAnonymity.valueChanged.connect(self.updateKValue)
+        
+        # L-Diversity slider
+        self.slider_LDiversity = self.findChild(QSlider, "sliderLDiversity")
+        self.label_LValue = self.findChild(QLabel, "labelLValue")
+        self.slider_LDiversity.valueChanged.connect(self.updateLValue)
+        
+        # T-Closeness slider
+        self.slider_TCloseness = self.findChild(QSlider, "sliderTCloseness")
+        self.label_TValue = self.findChild(QLabel, "labelTValue")
+        self.slider_TCloseness.valueChanged.connect(self.updateTValue)
+        
+        # Navigation buttons
+        self.pushButton_BackToAttributes = self.findChild(QPushButton, "pushButtonBackToAttributes")
+        self.pushButton_ContinueToPreview = self.findChild(QPushButton, "pushButtonContinueToPreview")
+        self.pushButton_BackToAttributes.clicked.connect(self.clickedBackToAttributes)
+        self.pushButton_ContinueToPreview.clicked.connect(self.clickedContinueToPreview)
+
         #EXPORT DATA TAB
         self.pushButton_ExportData = self.findChild(QPushButton, "pushButtonExportData")
         self.pushButton_ExportData.clicked.connect(self.clickedExport)
         
-        # Variável para guardar configurações dos atributos
+        # Variáveis para guardar configurações
         self.anonymization_config = []
+        self.privacy_params = {
+            'k': 3,
+            'l': 2,
+            't': 0.2,
+            'mode': 'automatic'
+        }
         
         self.show()
 
-    #IMPORT TAB BEGIN
+#IMPORT TAB BEGIN
     def clickedImport(self):
         file_name, _ = QFileDialog.getOpenFileName(
             self, 
@@ -72,9 +108,9 @@ class Application(QMainWindow):
                 error_message = f'Error processing file: {str(e)}'
                 print(error_message)
                 QMessageBox.critical(self, "Error", error_message)
-    #IMPORT TAB END
+#IMPORT TAB END
 
-    #DATA TAB BEGIN
+#DATA TAB BEGIN
     def populateTable(self):
         self.table.clear()
         print("Populating...")
@@ -104,7 +140,9 @@ class Application(QMainWindow):
                 self.table.setItem(row_num, col_num, item) 
         #END OF TABLE DATA#        
         self.table.resizeColumnsToContents()
-        
+#DATA TAB END
+
+#ATTRIBUTES TAB BEGIN        
     def populateAttributesTable(self):
         """Popula a tabela de atributos sem auto-suggestions"""
         try:
@@ -306,8 +344,119 @@ class Application(QMainWindow):
                 "🔄 Attributes configuration saved!\n\n"
                 "You can now configure the anonymization techniques in the 'Anonymize' tab."
             )
+#ATTRIBUTES TAB END
+
+#ANONYMIZE TAB BEGIN
+    def switchAnonymizeMode(self, mode_index):
+            """Alterna entre Modo Automático (0) e Modo Advanced (1)"""
+            self.stackedWidgetAnonymize.setCurrentIndex(mode_index)
+
+            if mode_index == 0:
+                self.pushButton_AutoMode.setChecked(True)
+                self.pushButton_AdvancedMode.setChecked(False)
+                self.privacy_params['mode'] = 'automatic'
+                print("Switched to Automatic Mode")
+            else:
+                self.pushButton_AutoMode.setChecked(False)
+                self.pushButton_AdvancedMode.setChecked(True)
+                self.privacy_params['mode'] = 'advanced'
+                print("Switched to Advanced Mode")
+
+    def updateKValue(self, value):
+        """Atualiza o valor do K-Anonymity"""
+        self.label_KValue.setText(f"k = {value}")
+        self.privacy_params['k'] = value
+        print(f"K-Anonymity updated to: {value}")
+
+    def updateLValue(self, value):
+        """Atualiza o valor do L-Diversity"""
+        self.label_LValue.setText(f"l = {value}")
+        self.privacy_params['l'] = value
+        print(f"L-Diversity updated to: {value}")
+
+    def updateTValue(self, value):
+        """Atualiza o valor do T-Closeness"""
+        t_value = value / 10.0
+        self.label_TValue.setText(f"t = {t_value:.1f}")
+        self.privacy_params['t'] = t_value
+        print(f"T-Closeness updated to: {t_value}")
+
+    def clickedBackToAttributes(self):
+        """Volta para a aba Attributes"""
+        self.tabWidget.setCurrentIndex(2)
+
+    def clickedContinueToPreview(self):
+        """Valida configurações e avança para Preview"""
+        print("Continuing to Preview...")
+        
+        if not self.anonymization_config:
+            QMessageBox.warning(
+                self,
+                "No Configuration",
+                "⚠️ Please configure attributes first!\n\n"
+                "Go to the 'Attributes' tab and select columns for anonymization."
+            )
+            self.tabWidget.setCurrentIndex(2)
+            return
+        
+        mode_text = "Automatic" if self.privacy_params['mode'] == 'automatic' else "Advanced"
+        
+        if self.privacy_params['mode'] == 'automatic':
+            summary = f"""✅ Anonymization Configuration Summary
+
+                📊 Mode: {mode_text}
+
+                Privacy Parameters:
+                🔹 K-Anonymity: k = {self.privacy_params['k']}
+                   → Minimum {self.privacy_params['k']} indistinguishable records
+
+                🔹 L-Diversity: l = {self.privacy_params['l']}
+                   → Minimum {self.privacy_params['l']} different sensitive values
+
+                🔹 T-Closeness: t = {self.privacy_params['t']}
+                   → Maximum distance of {self.privacy_params['t']} from global distribution
+
+                Selected Attributes: {len(self.anonymization_config)}
+                """
+            for attr in self.anonymization_config:
+                summary += f"  • {attr['name']} ({attr['sensitivity']})\n"
+
+                summary += "\n🎯 The system will automatically apply appropriate techniques."
+        else:
+            summary = f"""✅ Anonymization Configuration Summary
+
+                ⚙️ Mode: {mode_text}
+
+                Selected Attributes: {len(self.anonymization_config)}
+                """
+            for attr in self.anonymization_config:
+                summary += f"  • {attr['name']} ({attr['sensitivity']})\n"
+
+                summary += "\n⚠️ Manual technique configuration required."
+
+                reply = QMessageBox.information(
+                    self,
+                    "Ready for Preview",
+                    summary,
+                    QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel
+                )
+
+                if reply == QMessageBox.StandardButton.Ok:
+                    print(f"\n=== PRIVACY PARAMETERS ===")
+                    print(f"Mode: {self.privacy_params['mode']}")
+                    print(f"K-Anonymity: {self.privacy_params['k']}")
+                    print(f"L-Diversity: {self.privacy_params['l']}")
+                    print(f"T-Closeness: {self.privacy_params['t']}")
+                    print(f"==========================\n")
     
-    #EXPORT TAB BEGIN
+                    QMessageBox.information(
+                        self,
+                        "Preview Tab",
+                        "🚧 Preview tab will be implemented next!\n\n"
+                        "Configuration saved successfully."
+                    )
+
+#EXPORT TAB BEGIN
     def clickedExport(self):
         file_name, _ = QFileDialog.getSaveFileName(
             self,
@@ -340,7 +489,7 @@ class Application(QMainWindow):
                 error_message = f'Error exporting file: {str(e)}'
                 print(error_message)
                 QMessageBox.critical(self, "Error", error_message)
-    #EXPORT TAB END
+#EXPORT TAB END
 
 app = QApplication(sys.argv)
 window = Application()

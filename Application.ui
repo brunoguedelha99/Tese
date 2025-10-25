@@ -103,8 +103,340 @@
     <attribute name="title">
      <string>Anonymize</string>
     </attribute>
+    
+    <!-- Mode Toggle Buttons -->
+    <widget class="QPushButton" name="pushButtonAutoMode">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>30</y>
+       <width>150</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>🎯 Automatic Mode</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    
+    <widget class="QPushButton" name="pushButtonAdvancedMode">
+     <property name="geometry">
+      <rect>
+       <x>520</x>
+       <y>30</y>
+       <width>150</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>⚙️ Advanced Mode</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+    </widget>
+    
+    <!-- Stacked Widget para alternar entre modos -->
+    <widget class="QStackedWidget" name="stackedWidgetAnonymize">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>80</y>
+       <width>1070</width>
+       <height>420</height>
+      </rect>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     
+     <!-- Página 0: Automatic Mode -->
+     <widget class="QWidget" name="pageAutoMode">
+      
+      <!-- K-Anonymity -->
+      <widget class="QLabel" name="labelKAnonymity">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>20</y>
+         <width>200</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>&lt;b&gt;K-Anonymity (k):&lt;/b&gt;</string>
+       </property>
+      </widget>
+      
+      <widget class="QSlider" name="sliderKAnonymity">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>50</y>
+         <width>400</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="minimum">
+        <number>2</number>
+       </property>
+       <property name="maximum">
+        <number>10</number>
+       </property>
+       <property name="value">
+        <number>3</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+      
+      <widget class="QLabel" name="labelKValue">
+       <property name="geometry">
+        <rect>
+         <x>430</x>
+         <y>50</y>
+         <width>50</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>k = 3</string>
+       </property>
+      </widget>
+      
+      <widget class="QLabel" name="labelKDescription">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>80</y>
+         <width>600</width>
+         <height>40</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Minimum number of indistinguishable records for quasi-identifiers.</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+      
+      <!-- L-Diversity -->
+      <widget class="QLabel" name="labelLDiversity">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>140</y>
+         <width>200</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>&lt;b&gt;L-Diversity (l):&lt;/b&gt;</string>
+       </property>
+      </widget>
+      
+      <widget class="QSlider" name="sliderLDiversity">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>170</y>
+         <width>400</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="minimum">
+        <number>2</number>
+       </property>
+       <property name="maximum">
+        <number>5</number>
+       </property>
+       <property name="value">
+        <number>2</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+      
+      <widget class="QLabel" name="labelLValue">
+       <property name="geometry">
+        <rect>
+         <x>430</x>
+         <y>170</y>
+         <width>50</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>l = 2</string>
+       </property>
+      </widget>
+      
+      <widget class="QLabel" name="labelLDescription">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>200</y>
+         <width>600</width>
+         <height>40</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Minimum diversity of sensitive values in each k-anonymous group.</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+      
+      <!-- T-Closeness -->
+      <widget class="QLabel" name="labelTCloseness">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>260</y>
+         <width>200</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>&lt;b&gt;T-Closeness (t):&lt;/b&gt;</string>
+       </property>
+      </widget>
+      
+      <widget class="QSlider" name="sliderTCloseness">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>290</y>
+         <width>400</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>10</number>
+       </property>
+       <property name="value">
+        <number>2</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+      
+      <widget class="QLabel" name="labelTValue">
+       <property name="geometry">
+        <rect>
+         <x>430</x>
+         <y>290</y>
+         <width>50</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>t = 0.2</string>
+       </property>
+      </widget>
+      
+      <widget class="QLabel" name="labelTDescription">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>320</y>
+         <width>600</width>
+         <height>40</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Maximum distance between group and global distribution of sensitive values.</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+      
+     </widget>
+     
+     <!-- Página 1: Advanced Mode -->
+     <widget class="QWidget" name="pageAdvancedMode">
+      
+      <widget class="QLabel" name="labelAdvancedInfo">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>20</y>
+         <width>1000</width>
+         <height>380</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;body&gt;
+&lt;h2&gt;⚙️ Advanced Mode&lt;/h2&gt;
+&lt;p&gt;Configure anonymization techniques manually for each selected attribute.&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Available Techniques:&lt;/b&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;b&gt;Data Masking:&lt;/b&gt; Partially hide sensitive information&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Generalization:&lt;/b&gt; Replace specific values with ranges&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Pseudonymization:&lt;/b&gt; Replace identifiers with pseudonyms&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Suppression:&lt;/b&gt; Remove rare or unique values&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Perturbation:&lt;/b&gt; Add controlled noise to numerical data&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;i&gt;⚠️ Note: Manual configuration may not guarantee K, L, T parameters.&lt;/i&gt;&lt;/p&gt;
+&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignTop</set>
+       </property>
+      </widget>
+      
+     </widget>
+    </widget>
+    
+    <!-- Navigation Buttons -->
+    <widget class="QPushButton" name="pushButtonBackToAttributes">
+     <property name="geometry">
+      <rect>
+       <x>400</x>
+       <y>520</y>
+       <width>120</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>⬅️ Back</string>
+     </property>
+    </widget>
+    
+    <widget class="QPushButton" name="pushButtonContinueToPreview">
+     <property name="geometry">
+      <rect>
+       <x>540</x>
+       <y>520</y>
+       <width>120</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Preview ➡️</string>
+     </property>
+    </widget>
+    
    </widget>
-   <widget class="QWidget" name="tab_5">
+   <widget class="QWidget" name="tab_6">
     <attribute name="title">
      <string>Export</string>
     </attribute>
