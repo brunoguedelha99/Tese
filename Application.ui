@@ -436,6 +436,131 @@
     </widget>
     
    </widget>
+   <!-- TAB 5: Preview (NOVA) -->
+<widget class="QWidget" name="tab_preview">
+    <attribute name="title">
+     <string>Preview</string>
+    </attribute>
+    
+    <!-- Title -->
+    <widget class="QLabel" name="labelPreviewTitle">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>10</y>
+       <width>450</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;h2&gt;👀 Preview Anonymization Results&lt;/h2&gt;</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    
+    <!-- Original Data Label -->
+    <widget class="QLabel" name="labelOriginalData">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>50</y>
+       <width>200</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;b&gt;📋 Original Data&lt;/b&gt;</string>
+     </property>
+    </widget>
+    
+    <!-- Original Data Table -->
+    <widget class="QTableWidget" name="tableOriginalPreview">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>80</y>
+       <width>520</width>
+       <height>380</height>
+      </rect>
+     </property>
+    </widget>
+    
+    <!-- Anonymized Data Label -->
+    <widget class="QLabel" name="labelAnonymizedData">
+     <property name="geometry">
+      <rect>
+       <x>750</x>
+       <y>50</y>
+       <width>200</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;b&gt;🔒 Anonymized Data&lt;/b&gt;</string>
+     </property>
+    </widget>
+    
+    <!-- Anonymized Data Table -->
+    <widget class="QTableWidget" name="tableAnonymizedPreview">
+     <property name="geometry">
+      <rect>
+       <x>600</x>
+       <y>80</y>
+       <width>520</width>
+       <height>380</height>
+      </rect>
+     </property>
+    </widget>
+    
+    <!-- Info Label -->
+    <widget class="QLabel" name="labelPreviewInfo">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>470</y>
+       <width>700</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;i&gt;ℹ️ Preview shows first 10 rows. Review changes before applying.&lt;/i&gt;</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    
+    <!-- Navigation Buttons -->
+    <widget class="QPushButton" name="pushButtonBackToAnonymize">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>510</y>
+       <width>150</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>⬅️ Back to Config</string>
+     </property>
+    </widget>
+    
+    <widget class="QPushButton" name="pushButtonApplyAnonymization">
+     <property name="geometry">
+      <rect>
+       <x>520</x>
+       <y>510</y>
+       <width>150</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>✅ Apply Anonymization</string>
+     </property>
+    </widget>
+</widget>
    <widget class="QWidget" name="tab_6">
     <attribute name="title">
      <string>Export</string>
